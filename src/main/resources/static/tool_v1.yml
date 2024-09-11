@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Сервис инвентаризации RenovaTech
+  description: Спецификация OpenApi для RenovaTech
+  version: 0.0.2
+  contact:
+    name: Ivan Kosenkov
+    url: https://github.com/Bouncer77/DreddMe
+    email: i.kosenkov77@yandex.ru
+
+servers:
+- description: Dev Server
+  url: http://localhost:8080/api/v1
+  
+tags:
+  - name: tool
+paths:
+  /tools/create:
+      post:
+        tags:
+          - tool
+        summary: Обновляет данные формы для инструмента
+        description: Обновляет данные формы для инструмента
+        operationId: createToolWithForm
+        parameters:
+          - name: name
+            in: query
+            description: Имя домашнего животного, которое необходимо обновить
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Успешный ответ с одним инструментов
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Tool'
+          '400':
+            description: Неверный ввод
+
+  /tools:
+    get:
+      tags:
+        - tool
+      summary: Получения списка всех инструментов
+      description: Возвращает все инструменты
+      operationId: getAllTools
+      responses:
+        "200":
+          description: Успешный ответ со списком инструментов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tools'
+        '404':
+          description: Инструменты не найдены
+          
+  /tools/{toolId}:
+    get:
+      tags:
+        - tool
+      summary: Получения инструмента по идентификатору
+      description: Метод получения одного инструмента по идентификатору
+      operationId: getToolById
+      parameters:
+        - name: toolId
+          in: path
+          description: идентификаор возвращаемого инструмента
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+    
+      responses:
+        '200':
+          description: Успешный ответ с одним инструментов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '400':
+          description: Указан неверный идентификатор
+        '404':
+          description: Инструмент не найден
+          
+    post:
+      tags:
+        - tool
+      summary: Обновляет данные формы для инструмента
+      description: Обновляет данные формы для инструмента
+      operationId: updateToolWithForm
+      parameters:
+        - name: toolId
+          in: path
+          description: Идентификатор инструмента, который необходимо обновить
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Имя домашнего животного, которое необходимо обновить
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ с одним инструментов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '400':
+          description: Неверный ввод
+  
+  /tools/delete:
+    post:
+      tags:
+        - tool
+      summary: Удалить инструмент
+      description: Обновляет данные формы для инструмента
+      operationId: deleteToolWithForm
+      parameters:
+        - name: toolId
+          in: query
+          description: Идентификатор инструмента, который необходимо обновить
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ с одним инструментов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '400':
+          description: Неверный ввод
+  
+          
+components:
+  schemas:
+    Tool:
+      type: object
+      required:
+        - name
+        - status      
+      properties:
+        tool_id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Шуруповерт Макита
+        status:
+          type: string
+          example: Новый
+          description: Состояние инструмента
+    Tools:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tool'   
