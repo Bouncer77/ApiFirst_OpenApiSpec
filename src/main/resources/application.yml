@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name:
+      open-api-generator
+
+springdoc:
+  swagger-ui:
+    url: /tool_v1.yml

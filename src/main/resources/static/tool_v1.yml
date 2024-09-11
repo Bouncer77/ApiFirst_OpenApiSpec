@@ -15,29 +15,6 @@ servers:
 tags:
   - name: tool
 paths:
-  /tools/create:
-      post:
-        tags:
-          - tool
-        summary: Обновляет данные формы для инструмента
-        description: Обновляет данные формы для инструмента
-        operationId: createToolWithForm
-        parameters:
-          - name: name
-            in: query
-            description: Имя домашнего животного, которое необходимо обновить
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Успешный ответ с одним инструментов
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Tool'
-          '400':
-            description: Неверный ввод
-
   /tools:
     get:
       tags:
@@ -54,6 +31,27 @@ paths:
                 $ref: '#/components/schemas/Tools'
         '404':
           description: Инструменты не найдены
+    post:
+      tags:
+        - tool
+      summary: Обновляет данные формы для инструмента
+      description: Обновляет данные формы для инструмента
+      operationId: createToolWithForm
+      parameters:
+        - name: name
+          in: query
+          description: Имя домашнего животного, которое необходимо обновить
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ с одним инструментов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '400':
+          description: Неверный ввод
           
   /tools/{toolId}:
     get:
